@@ -1,27 +1,54 @@
 from dotenv import load_dotenv
 import os
 
+import asyncio
+from aiogram import Bot, Dispatcher, types, F
+
+from aiogram.filters import Command, StateFilter
+from aiogram.fsm.context import FSMContext
+from States import CreateNote
+
+####
+notes = {'test': 'my note'}
+####
 load_dotenv()
 API_TOKEN = os.getenv('API_TOKEN')
 
-import asyncio
-import logging
-from aiogram import Bot, Dispatcher, types
-from aiogram.filters.command import Command
-
-# Включаем логирование, чтобы не пропустить важные сообщения
-logging.basicConfig(level=logging.INFO)
-# Объект бота
-bot = Bot(token=os.getenv('API_TOKEN'))
-# Диспетчер
+bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 
-# Хэндлер на команду /start
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message):
-    await message.answer("Hello!")
+    kb = [
+        [types.KeyboardButton(text="Создать заметку")],
+        [types.KeyboardButton(text="Просмотреть существующие заметки")]
+    ]
+    keyboard = types.ReplyKeyboardMarkup(keyboard=kb,resize_keyboard=True)
+    await message.answer("Hello! This bot for your cool notes", reply_markup=keyboard)
 
-# Запуск процесса поллинга новых апдейтов
+
+
+@dp.message(StateFilter(None), F.text == 'Создать заметку')
+async def cmd_create_note(message: types.Message, state: FSMContext):
+
+
+    await  message.answer('Введите название заметки')
+    await state.set_state(CreateNote.create_note_name)
+
+@dp.message(CreateNote.create_note_name)
+async def create_note_name(message: types.Message, state: FSMContext):
+    await message.answer(message.text)
+
+@dp.message(F.text == 'Просмотреть существующие заметки')
+async def cmd_create_note(message: types.Message):
+
+    await  message.answer('Ваши заметки:' ,  parse_mode="MarkdownV2")
+
+    for key in  notes.keys():
+        text = f' *{str(key)}*: {str(notes[key])}\n'
+        await message.answer(text, parse_mode="MarkdownV2")
+
+
 async def main():
     await dp.start_polling(bot)
 
