@@ -31,13 +31,22 @@ async def cmd_start(message: types.Message):
 @dp.message(StateFilter(None), F.text == 'Создать заметку')
 async def cmd_create_note(message: types.Message, state: FSMContext):
 
-
     await  message.answer('Введите название заметки')
     await state.set_state(CreateNote.create_note_name)
 
-@dp.message(CreateNote.create_note_name)
+@dp.message(CreateNote.create_note_name, F.text)
 async def create_note_name(message: types.Message, state: FSMContext):
-    await message.answer(message.text)
+    #TODO: проверка содержания названия
+    await state.update_data(create_note_name = message.text)
+    await  state.set_state(CreateNote.create_note_desc)
+    await message.answer("Введите содержание заметки")
+
+@dp.message(CreateNote.create_note_desc, F.text)
+async def create_note_text_desc(message: types.Message, state: FSMContext):
+    note_data = await state.get_data()
+    notes[note_data['create_note_name']] = message.text
+    await message.answer('Заметка успешно создана!')
+    await state.clear()
 
 @dp.message(F.text == 'Просмотреть существующие заметки')
 async def cmd_create_note(message: types.Message):
