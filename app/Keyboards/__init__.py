@@ -1,2 +1,3 @@
 from .MainKeyboard import main_keyboard
 from .InlineNoteKeyboard import inlineNoteKeyboard
+from .ShortInlineNoteKeyboard import short_inlineNoteKeyboard

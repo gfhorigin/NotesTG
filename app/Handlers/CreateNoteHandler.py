@@ -1,6 +1,8 @@
 from aiogram import Router, types, F
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
+
+from app.Keyboards import main_keyboard
 from app.States.NoteStates import CreateNote
 import app.DataBase as db
 
@@ -23,6 +25,6 @@ async def create_note_name(message: types.Message, state: FSMContext):
 async def create_note_text_desc(message: types.Message, state: FSMContext):
     note_data = await state.get_data()
     db.notes[note_data['create_note_name']] = message.text
-    await message.answer('Заметка успешно создана!')
+    await message.answer('Заметка успешно создана!', reply_markup=main_keyboard())
     await state.clear()
 
