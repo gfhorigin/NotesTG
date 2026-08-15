@@ -1,6 +1,6 @@
 from aiogram import  types
 
-from app.config import CB_FULL
+from app.Callbacks import CB_FULL
 
 
 def short_inlineNoteKeyboard():
