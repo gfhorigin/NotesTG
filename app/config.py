@@ -6,4 +6,7 @@ API_TOKEN = os.getenv('API_TOKEN')
 
 # --------Constants
 NOTE_PREFIX = 'note'
-DATABASE_NAME = 'data'
+DATABASE_NAME = 'data.db'
+
+USERS_TABLE = 'users'
+NOTES_TABLE = 'notes'
