@@ -24,7 +24,7 @@ async def create_note_name(message: types.Message, state: FSMContext):
 @router.message(CreateNote.create_note_desc, F.text)
 async def create_note_text_desc(message: types.Message, state: FSMContext):
     note_data = await state.get_data()
-    db.notes[note_data['create_note_name']] = message.text
+    db.notes[note_data['create_note_name']] = message.text #TODO: обновить на настаящую бд
     await message.answer('Заметка успешно создана!', reply_markup=main_keyboard())
     await state.clear()
 

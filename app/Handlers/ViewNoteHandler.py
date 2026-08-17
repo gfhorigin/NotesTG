@@ -10,7 +10,7 @@ async def cmd_view_note(message: types.Message):
     await  message.answer('Ваши заметки:' ,  parse_mode="MarkdownV2")
 
     for key in  db.notes.keys():
-        text = f' *{str(key)}*: {str(db.notes[key])}\n'
+        text = f' *{str(key)}*: {str(db.notes[key])}\n'#TODO: обновить на настаящую бд
         await message.answer(text, parse_mode="MarkdownV2",reply_markup=short_inlineNoteKeyboard())
 
 
