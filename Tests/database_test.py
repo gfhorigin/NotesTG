@@ -16,7 +16,7 @@ async def test_init_db():
     async with aiosqlite.connect(TEMP_NAME) as con:
         cur = await con.execute("""SELECT name FROM sqlite_master WHERE type = 'table'""")
         tables = await cur.fetchall()
-        table_names = [row[0] for row in tables]
+        table_names = [row[0] for row in tables]#test ci
 
         assert USERS_TABLE in table_names
         assert NOTES_TABLE in table_names
