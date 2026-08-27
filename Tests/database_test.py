@@ -18,5 +18,5 @@ async def test_init_db():
         tables = await cur.fetchall()
         table_names = [row[0] for row in tables]#test ci
 
-        assert USERS_TABLE in table_names
+        assert USERS_TABLE in table_namess
         assert NOTES_TABLE in table_names
