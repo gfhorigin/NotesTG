@@ -3,8 +3,8 @@ import asyncio
 from aiogram import Dispatcher, Bot
 
 from app.config import API_TOKEN
-from Handlers import routers
-from DataBase import _DataBase
+from .Handlers import routers
+from .DataBase import _DataBase
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
